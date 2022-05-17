@@ -1,5 +1,6 @@
 import express from 'express';
 import { NodeMailerAdapter } from './adapters/nodemailer-adapter/nodemailer-adapter';
+import { prisma } from './prisma';
 import { PrismaFeedBackRepository } from './repositories/prisma/prisma-feebacks-repository';
 import { SubmitFeedbackUseCase } from './use-cases/submit-feeback-use-case';
 
@@ -25,4 +26,11 @@ routes.post('/feedbacks', async (req, res) => {
 
   return res.status(201).send();
 
+})
+
+routes.get('/feedbacks', async (req, res) => {
+  const allFeedbacks = await prisma.feedBack.findMany()
+  console.log(allFeedbacks);
+
+  res.json(allFeedbacks).status(200)
 })
